@@ -34,6 +34,28 @@ public class BitmapCompressor {
     public static void compress() {
 
         // TODO: complete compress()
+        String s  = BinaryStdIn.readString();
+        int n = s.length();
+        int i = 0;
+        boolean hasOne = false;
+        // For each number in s
+        while(i < n){
+            // Go through the bit map by 8 bits
+            for(int start = i; start < start + 8; start++){
+                if(s.charAt(i) == '1'){
+                    hasOne = true;
+                    break;
+                }
+            }
+            if(hasOne){
+                BinaryStdOut.write(s.substring(i, i + 8));
+                hasOne = false;
+            }
+            // Write a single 0 meaning a line with 8 bits of 0's
+            else{
+                BinaryStdOut.write(0b0);
+            }
+        }
 
         BinaryStdOut.close();
     }
