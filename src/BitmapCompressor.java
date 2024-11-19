@@ -37,27 +37,20 @@ public class BitmapCompressor {
         String s  = BinaryStdIn.readString();
         int n = s.length();
         int i = 0;
-        boolean hasOne = false;
+        boolean onlyZeros = false;
         // For each number in s
         while(i < n){
-            // Go through the bit map by 8 bits
-            for(int start = i; start < start + 8; start++){
-                if(s.charAt(i) == '1'){
-                    hasOne = true;
-                    break;
-                }
+            // Check the next 8 bits (as a char) is only 0's
+            if(s.charAt(i) == 0) {
+                // Write a single 0 meaning a line with 8 bits of 0's
+                BinaryStdOut.write(false);
             }
-            // Check if there is a 1 in the 8 bit sequence
-            if(hasOne){
-                BinaryStdOut.write(s.substring(i, i + 8));
-                hasOne = false;
-            }
-            // Write a single 0 meaning a line with 8 bits of 0's
             else{
-                BinaryStdOut.write(0b0);
+                // Writes the rest of the char/byte (since there is probably a 1)
+                BinaryStdOut.write(s.charAt(i));
             }
+            i++;
         }
-
         BinaryStdOut.close();
     }
 
