@@ -47,6 +47,7 @@ public class BitmapCompressor {
                     break;
                 }
             }
+            // Check if there is a 1 in the 8 bit sequence
             if(hasOne){
                 BinaryStdOut.write(s.substring(i, i + 8));
                 hasOne = false;
