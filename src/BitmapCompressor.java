@@ -23,7 +23,7 @@
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  *  @author Zach Blick
- *  @author YOUR NAME HERE
+ *  @author Diego Villegas
  */
 public class BitmapCompressor {
 
@@ -34,10 +34,33 @@ public class BitmapCompressor {
     public static void compress() {
 
         // TODO: complete compress()
+        // New Method
+        int counter = 0;
+        boolean lastBit = BinaryStdIn.readBoolean();
+        counter++;
+        boolean bit = false;
+        // read a bit
+        bit = BinaryStdIn.readBoolean();
+        // if it defers from the last bit read
+        if(lastBit != bit){
+            // write the current count
+            BinaryStdOut.write(counter);
+            // reset count
+            counter = 1;
+        }
+        // if the same as last bit read, and the count is a maximum
+        // write a 0 count
+        // reset count
+        else{
+            counter++;
+        }
+
+        // if the same as last bit read, and the count is a maxixum
+        // write a 0 count
+        // reset count
         String s  = BinaryStdIn.readString();
         int n = s.length();
         int i = 0;
-        boolean onlyZeros = false;
         // For each number in s
         while(i < n){
             // Check the next 8 bits (as a char) is only 0's
