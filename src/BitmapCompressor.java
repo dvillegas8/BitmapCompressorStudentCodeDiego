@@ -36,44 +36,33 @@ public class BitmapCompressor {
         // TODO: complete compress()
         // New Method
         int counter = 0;
-        boolean lastBit = BinaryStdIn.readBoolean();
-        counter++;
-        boolean bit = false;
-        // read a bit
-        bit = BinaryStdIn.readBoolean();
-        // if it defers from the last bit read
-        if(lastBit != bit){
-            // write the current count
-            BinaryStdOut.write(counter);
-            // reset count
-            counter = 1;
-        }
-        // if the same as last bit read, and the count is a maximum
-        // write a 0 count
-        // reset count
-        else{
+        boolean lastBit = false;
+        boolean currentBit = false;
+        // Go through each bit in the file
+        while(!BinaryStdIn.isEmpty()){
+            currentBit = BinaryStdIn.readBoolean();
+            // Check if differs from last bit read
+            if(currentBit != lastBit){
+                // Write current count as a byte
+                BinaryStdOut.writeByte(counter);
+                // Reset count
+                counter = 0;
+            }
+            // Check if we reach the maximum a byte can hold
+            else if(counter > 255){
+                // Write Counter
+                BinaryStdOut.writeByte(counter);
+                // Write a 0
+                BinaryStdOut.writeByte(0);
+                // Reset count
+                counter = 0;
+            }
+            // Increment Count
             counter++;
+            lastBit = currentBit;
         }
-
-        // if the same as last bit read, and the count is a maxixum
-        // write a 0 count
-        // reset count
-        String s  = BinaryStdIn.readString();
-        int n = s.length();
-        int i = 0;
-        // For each number in s
-        while(i < n){
-            // Check the next 8 bits (as a char) is only 0's
-            if(s.charAt(i) == 0) {
-                // Write a single 0 meaning a line with 8 bits of 0's
-                BinaryStdOut.write(false);
-            }
-            else{
-                // Writes the rest of the char/byte (since there is probably a 1)
-                BinaryStdOut.write(s.charAt(i));
-            }
-            i++;
-        }
+        // Writes the last length of 0's or 1's
+        BinaryStdOut.writeByte(counter);
         BinaryStdOut.close();
     }
 
@@ -84,7 +73,18 @@ public class BitmapCompressor {
     public static void expand() {
 
         // TODO: complete expand()
-
+        int num = 0;
+        // Keeps track of if we are printing 0s or 1s, we start with
+        boolean startNum = false;
+        // Go through the file by 8 bits
+        while(!BinaryStdIn.isEmpty()){
+            num = BinaryStdIn.readByte();
+            // Print number of 1's or 0's
+            for(int i = 0; i < num; i++){
+                BinaryStdOut.write(startNum);
+            }
+            startNum = !startNum;
+        }
         BinaryStdOut.close();
     }
 

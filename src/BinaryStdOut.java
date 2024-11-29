@@ -64,7 +64,7 @@ public final class BinaryStdOut {
     /**
      * Writes the 8-bit byte to standard output.
      */
-    private static void writeByte(int x) {
+    static void writeByte(int x) {
         if (!isInitialized) initialize();
 
         assert x >= 0 && x < 256;
